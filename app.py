@@ -65,12 +65,14 @@ agent = create_openai_functions_agent(llm,
 agent_executor = AgentExecutor(agent=agent, 
                                tools=tools, 
                                verbose=True,
-                               memory=memory)
+                               memory=memory, 
+                               return_intermediate_steps=True)
 
 
 def display_chat():
     for entry in st.session_state.chat_history:
         with st.chat_message(entry["role"]):
+            st.write(entry["thoughts"])
             st.write(entry["content"])
 
 # function to get model answer
@@ -78,8 +80,11 @@ def create_answer(question):
     # create answer
     result = agent_executor.invoke({'input':question})
     # add that message too the chat history
+    thoughts = result["intermediate_steps"][0]
+    st.write
     st.session_state.chat_history.append({
         "role": "assistant",
+        "thoughts" : thoughts,
         "content": result["output"],
     })
 
@@ -87,6 +92,7 @@ def create_answer(question):
 if question := st.chat_input(placeholder="Let's chat"):
     st.session_state.chat_history.append({
         "role": "user",
+        "thoughts":"",
         "content": question,
     })
     create_answer(question)
