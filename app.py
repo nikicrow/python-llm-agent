@@ -6,7 +6,7 @@ import streamlit as st
 st.set_page_config(page_title="PythonBot",
                    page_icon=':sparkles:',
                    layout='centered',
-                   initial_sidebar_state='collapsed')
+                   initial_sidebar_state='expanded')
 st.title(":robot_face: Niki's PythonBot")
 # set up open ai key
 openai_key = st.secrets["OPENAI_API_KEY"]
@@ -14,6 +14,10 @@ openai_key = st.secrets["OPENAI_API_KEY"]
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
+# clear chat history
+def reset_conversation():
+  st.session_state.chat_history = []
+st.sidebar.button('Clear chat history', on_click=reset_conversation)
 
 def display_chat():
     for entry in st.session_state.chat_history:
