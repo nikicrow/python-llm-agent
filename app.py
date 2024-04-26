@@ -10,6 +10,7 @@ st.set_page_config(page_title="PythonBot",
 st.title(":robot_face: Niki's PythonBot")
 # set up open ai key
 openai_key = st.secrets["OPENAI_API_KEY"]
+
 # initialise chat history
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
